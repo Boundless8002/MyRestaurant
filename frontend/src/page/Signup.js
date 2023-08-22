@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ImagetoBase64 } from '../utility/ImagetoBase64'
 import toast, { Toaster } from 'react-hot-toast';
 
+const baseurl = "https://foodbackend-solv.onrender.com"
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +45,7 @@ const Signup = () => {
 
     if (firstName && email && password && confirmPassword) {
       if (password === confirmPassword) {
-        const fetchData = await fetch(`${process.env.REACT_APP_SERVER_DOMAIN}/signup`, {
+        const fetchData = await fetch(`${baseurl}/signup`, {
           method: "POST",
           headers: {
             "content-type": "application/json"
@@ -62,11 +63,11 @@ const Signup = () => {
 
       }
       else {
-        alert("something is wrong")
+        alert("Something is wrong,please check it")
       }
     }
     else {
-      alert("missing")
+      alert("Details Required")
     }
   }
   const handleUploadProfileImage = async (e) => {
