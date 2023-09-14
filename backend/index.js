@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const app = express();
-const Stripe=require("stripe");
+
 
 app.use(cors());
 const PORT = process.env.PORT || 8080;
@@ -64,26 +64,26 @@ app.post("/signup", async (req, res) => {
 // }
 
 //login
-app.post("/login",async (req, res) => {
+app.post("/login", async (req, res) => {
   console.log(req.body);
   const { email } = req.body;
   try {
     const userData = await userModel.findOne({ email: email });
-     if (userData) {
-       //console.log(userData)
-      const dataSend={
+    if (userData) {
+      //console.log(userData)
+      const dataSend = {
         _id: userData._id,
         firstName: userData.firstName,
-       lastName: userData.lastName,
-       email: userData.email,
-       image:userData.image,
+        lastName: userData.lastName,
+        email: userData.email,
+        image: userData.image,
       };
-      
-      res.send({ message: "Login is Successful", alert: true ,data:dataSend});
+
+      res.send({ message: "Login is Successful", alert: true, data: dataSend });
     }
-     else {
-        res.send({ message: "Email is not registered ,Please go into Sign up page", alert: false});
-   
+    else {
+      res.send({ message: "Email is not registered ,Please go into Sign up page", alert: false });
+
     }
   } catch (err) {
     console.log(err);
@@ -91,28 +91,28 @@ app.post("/login",async (req, res) => {
 });
 
 //product list
-const schemaProduct=mongoose.Schema({
-     name:String,
-    category:String,
-    image:String,
-    price:String,
-    description:String
+const schemaProduct = mongoose.Schema({
+  name: String,
+  category: String,
+  image: String,
+  price: String,
+  description: String
 })
 
-const productModel=mongoose.model("product",schemaProduct);
+const productModel = mongoose.model("product", schemaProduct);
 
 // upload in database mongodb
-app.post("/uploadProduct",async(req,res)=>{
+app.post("/uploadProduct", async (req, res) => {
   console.log(req.body);
-  const data=await productModel(req.body)
-  const dataSave=await data.save() ;
-  res.send({message:"Upload Sucessfully"})
+  const data = await productModel(req.body)
+  const dataSave = await data.save();
+  res.send({ message: "Upload Sucessfully" })
 })
 
 // to get data
-app.get("/product",async (req,res)=>{
-  const data= await productModel.find({})
-  res.send(JSON.stringify(data)) ;
+app.get("/product", async (req, res) => {
+  const data = await productModel.find({})
+  res.send(JSON.stringify(data));
 })
 
 
